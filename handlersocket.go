@@ -332,8 +332,8 @@ func (handlerSocket *HandlerSocket) Connect(params ...interface{}) (err error) {
 	}
 
 	// Check min number of params
-	if len(params) < 2 {
-		err = errors.New("A hostname and username are required to connect")
+	if len(params) < 1 {
+		err = errors.New("A hostname is required to connect")
 		return
 	}
 	// Parse params
@@ -357,6 +357,8 @@ func New() (handlerSocket *HandlerSocket) {
 /**
  * Create connection to server using unix socket or tcp/ip then setup buffered reader/writer
  */
+
+/* XXXPAM: This thing crashes if the port is not open */
 func (handlerSocket *HandlerSocket) connect() (err error) {
 	localAddress, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:0")
 	targetAddress := fmt.Sprintf("%s:%d", handlerSocket.auth.host, handlerSocket.auth.readPort)
@@ -402,7 +404,7 @@ func (handlerSocket *HandlerSocket) parseParams(p []interface{}) {
 	if len(p) > 1 {
 		handlerSocket.auth.readPort = p[1].(int)
 	}
-	if len(p) > 3 {
+	if len(p) > 2 {
 		handlerSocket.auth.writePort = p[2].(int)
 	}
 

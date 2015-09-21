@@ -133,11 +133,11 @@ func (handlerSocket *HandlerSocket) OpenIndex(index int, dbName string, tableNam
 	indexes[index] = columns
 
 	if message.ReturnCode != "0" {
-		return errors.New("Error Opening Index")
+		return errors.New("Error Opening Read Index")
 	}
 
 	if message2.ReturnCode != "0" {
-		return errors.New("Error Opening Index")
+		return errors.New("Error Opening Write Index")
 	}
 
 	return
@@ -228,6 +228,7 @@ The 'insert' request has the following syntax.
 
 ----------------------------------------------------------------------------
 */
+/* XXXPAM: This seems to have problems with: \t and \n */
 func (handlerSocket *HandlerSocket) Insert(index int, vals ...string) (err error) {
 
 	cols := strings.Join(vals, "\t")
